@@ -27,3 +27,24 @@ SIGIL: http://www.libsigil.com/ - Sigil Homepage
 EUPHORIA: https://openeuphoria.org/index.wc - Euphoria Homepage
 
 Thanks for using EuSigil! 
+
+### EXAMPLE
+
+```
+without type_check
+
+include std/machine.e
+include EuSigil.ew
+
+slWindow(640,480,"Simple Window - Click 'X' or ESC to close",0)
+
+while not slShouldClose()  do
+  if slGetKey(SL_KEY_ESCAPE) = 1 then
+  	 slClose()
+  end if
+	slRender()
+end while
+
+slClose()
+
+```
