@@ -24,6 +24,6 @@ can distribute software you make with this wrapper as you please.
 LINKS:
 
 SIGIL: http://www.libsigil.com/ - Sigil Homepage
-EUPHORIA: https://openeuphoria.org/index.wc
+EUPHORIA: https://openeuphoria.org/index.wc - Euphoria Homepage
 
 Thanks for using EuSigil! 
