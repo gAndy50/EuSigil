@@ -1,0 +1,35 @@
+without type_check
+
+include std/machine.e
+include EuSigil.ew
+
+constant WIDTH = 640, HEIGHT = 480
+
+slWindow(WIDTH,HEIGHT,"Sprite Example",0)
+
+atom x = WIDTH / 2
+atom y = HEIGHT / 2
+
+integer spr = slLoadTexture("Stick.png")
+
+if spr = -1 then
+	puts(1,"Failed to load sprite!\n")
+	abort(0)
+end if
+
+while not slShouldClose() do
+
+    slSetBackColor(255,255,255) --change background to white
+
+	if slGetKey(SL_KEY_ESCAPE) = 1 then
+		slClose()
+	end if
+	
+    slSprite(spr,x,y,32,32)
+	
+   slRender()
+   
+end while
+
+slClose()
+­28.27

@@ -1,0 +1,31 @@
+without type_check
+
+include std/machine.e
+include EuSigil.ew
+
+slWindow(640,480,"Font Window",0)
+
+integer font = slLoadFont("arial.ttf")
+
+if font = -1 then
+	puts(1,"Failed to load font!\n")
+	abort(0)
+end if
+
+slSetFont(font,20)
+
+while not slShouldClose() do
+	
+	slSetTextAlign(SL_ALIGN_CENTER)
+	slText(640 / 2, 480 / 2,"Hello World!")
+
+	if slGetKey(SL_KEY_ESCAPE) = 1 then
+		slClose()
+	end if	
+
+	slRender()
+	
+end while
+
+slClose()
+­20.40

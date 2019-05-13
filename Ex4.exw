@@ -1,0 +1,36 @@
+without type_check
+
+include EuSigil.ew
+
+constant TRUE = 1, FALSE = 0
+
+constant WIDTH = 640, HEIGHT = 480
+
+slWindow(WIDTH,HEIGHT,"Shapes",FALSE)
+
+slSetBackColor(0,0,0)
+
+while not slShouldClose() do
+
+	slSetForeColor(255,0,0,255)
+	slTriangleFill(100,450,50,50)
+	slSetForeColor(255,0,0,255)
+	slTriangleOutline(100,450,50,50)
+	
+	slSetForeColor(255,0,0,255)
+	slRectangleFill(200,300,50,50)
+	slSetForeColor(0,0,255,255)
+	slRectangleOutline(200,300,50,50)
+	
+	slSetForeColor(0,255,0,255)
+	slCircleFill(400,100,50,50)
+
+	if slGetKey(SL_KEY_ESCAPE) = 1 then
+		slClose()
+	end if
+	
+	slRender()
+end while
+
+slClose()
+­26.3
