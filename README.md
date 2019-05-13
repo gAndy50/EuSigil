@@ -1,11 +1,9 @@
 # EuSigil
-# Written by Andy P. (Icy_Viking)
-# Eu Ver: 4.0.5
-# Sigil Ver: 0.9.0
-# Contact/Paypal: g_andy <at> live.com
-
-	
-	
+ Written by Andy P. (Icy_Viking)
+ Eu Ver: 4.0.5
+ Sigil Ver: 0.9.0
+Contact/Paypal: g_andy <at> live.com
+			
 # (c) EuSigil 2019
 
 ### ABOUT
