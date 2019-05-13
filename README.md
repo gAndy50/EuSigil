@@ -1,10 +1,12 @@
 # EuSigil
- Written by Andy P. (Icy_Viking)
- Eu Ver: 4.0.5
- Sigil Ver: 0.9.0
+```
+Written by Andy P. (Icy_Viking)
+Eu Ver: 4.0.5
+Sigil Ver: 0.9.0
 Contact/Paypal: g_andy <at> live.com
-			
-# (c) EuSigil 2019
+	
+(c) EuSigil 2019
+```
 
 ### ABOUT
 ```
@@ -30,8 +32,9 @@ SIGIL: http://www.libsigil.com/ - Sigil Homepage
 EUPHORIA: https://openeuphoria.org/index.wc - Euphoria Homepage
 ```
 
-
-# Thanks for using EuSigil! 
+```
+ Thanks for using EuSigil! 
+```
 
 ### EXAMPLE
 
