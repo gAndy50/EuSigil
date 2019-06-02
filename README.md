@@ -1,7 +1,7 @@
 # EuSigil
 ```
 Written by Andy P. (Icy_Viking)
-Eu Ver: 4.0.5
+Eu Ver: 4.1.0 Beta 2
 Sigil Ver: 0.9.0
 Contact/Paypal: g_andy <at> live.com
 	
