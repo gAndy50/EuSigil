@@ -119,10 +119,10 @@ public constant SL_MOUSE_BUTTON_1 = 0,
 				
 --Init commands
 
-public constant xslWindow = define_c_proc(sl,"slWindow",{C_INT,C_INT,C_POINTER,C_INT}),
-				xslShowCursor = define_c_proc(sl,"slShowCursor",{C_INT}),
-				xslClose = define_c_proc(sl,"slClose",{}),
-				xslShouldClose = define_c_func(sl,"slShouldClose",{},C_INT)
+public constant xslWindow = define_c_proc(sl,"+slWindow",{C_INT,C_INT,C_POINTER,C_INT}),
+				xslShowCursor = define_c_proc(sl,"+slShowCursor",{C_INT}),
+				xslClose = define_c_proc(sl,"+slClose",{}),
+				xslShouldClose = define_c_func(sl,"+slShouldClose",{},C_INT)
 				
 public procedure slWindow(atom width,atom height,sequence title,integer fullScr)
 
@@ -151,10 +151,10 @@ end function
 
 --Simple Input Functions
 
-public constant xslGetKey = define_c_func(sl,"slGetKey",{C_INT},C_INT),
-				xslGetMouseButton = define_c_func(sl,"slGetMouseButton",{C_INT},C_INT),
-				xslGetMouseX = define_c_func(sl,"slGetMouseX",{},C_INT),
-				xslGetMouseY = define_c_func(sl,"slGetMouseY",{},C_INT)
+public constant xslGetKey = define_c_func(sl,"+slGetKey",{C_INT},C_INT),
+				xslGetMouseButton = define_c_func(sl,"+slGetMouseButton",{C_INT},C_INT),
+				xslGetMouseX = define_c_func(sl,"+slGetMouseX",{},C_INT),
+				xslGetMouseY = define_c_func(sl,"+slGetMouseY",{},C_INT)
 				
 public function slGetKey(integer xkey)
 
@@ -182,8 +182,8 @@ end function
 
 --Simple frame time Functions
 
-public constant xslGetDeltaTime = define_c_func(sl,"slGetDeltaTime",{},C_DOUBLE),
-				xslGetTime = define_c_func(sl,"slGetTime",{},C_DOUBLE)
+public constant xslGetDeltaTime = define_c_func(sl,"+slGetDeltaTime",{},C_DOUBLE),
+				xslGetTime = define_c_func(sl,"+slGetTime",{},C_DOUBLE)
 				
 public function slGetDeltaTime()
 
@@ -199,7 +199,7 @@ end function
 
 --Render Functions
 
-public constant xslRender = define_c_proc(sl,"slRender",{})
+public constant xslRender = define_c_proc(sl,"+slRender",{})
 
 public procedure slRender()
 
@@ -209,8 +209,8 @@ end procedure
 
 --Color Control Functions
 
-public constant xslSetBackColor = define_c_proc(sl,"slSetBackColor",{C_DOUBLE,C_DOUBLE,C_DOUBLE}),
-				xslSetForeColor = define_c_proc(sl,"slSetForeColor",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+public constant xslSetBackColor = define_c_proc(sl,"+slSetBackColor",{C_DOUBLE,C_DOUBLE,C_DOUBLE}),
+				xslSetForeColor = define_c_proc(sl,"+slSetForeColor",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
 				
 public procedure slSetBackColor(atom red,atom green,atom blue)
 
@@ -226,7 +226,7 @@ end procedure
 
 --Blending Control Functions
 
-public constant xslSetAdditiveBlend = define_c_proc(sl,"slSetAdditiveBlend",{C_INT})
+public constant xslSetAdditiveBlend = define_c_proc(sl,"+slSetAdditiveBlend",{C_INT})
 
 public procedure slSetAdditiveBlend(integer addblnd)
 
@@ -236,11 +236,11 @@ end procedure
 
 --Transformations Functions
 
-public constant xslPush = define_c_proc(sl,"slPush",{}),
-				xslPop = define_c_proc(sl,"slPop",{}),
-				xslTranslate = define_c_proc(sl,"slTranslate",{C_DOUBLE,C_DOUBLE}),
-				xslRotate = define_c_proc(sl,"slRotate",{C_DOUBLE}),
-				xslScale = define_c_proc(sl,"slScale",{C_DOUBLE,C_DOUBLE})
+public constant xslPush = define_c_proc(sl,"+slPush",{}),
+				xslPop = define_c_proc(sl,"+slPop",{}),
+				xslTranslate = define_c_proc(sl,"+slTranslate",{C_DOUBLE,C_DOUBLE}),
+				xslRotate = define_c_proc(sl,"+slRotate",{C_DOUBLE}),
+				xslScale = define_c_proc(sl,"+slScale",{C_DOUBLE,C_DOUBLE})
 				
 public procedure slPush()
 
@@ -274,7 +274,7 @@ end procedure
 
 --Texture loading Function
 
-public constant xslLoadTexture = define_c_func(sl,"slLoadTexture",{C_POINTER},C_INT)
+public constant xslLoadTexture = define_c_func(sl,"+slLoadTexture",{C_POINTER},C_INT)
 
 public function slLoadTexture(sequence file)
 
@@ -285,16 +285,16 @@ end function
 
 --Sound loading & playing Functions
 
-public constant xslLoadWAV = define_c_func(sl,"slLoadWAV",{C_POINTER},C_INT),
-				xslSoundPlay = define_c_func(sl,"slSoundPlay",{C_INT},C_INT),
-				xslSoundLoop = define_c_func(sl,"slSoundLoop",{C_INT},C_INT),
-				xslSoundPause = define_c_proc(sl,"slSoundPause",{C_INT}),
-				xslSoundStop = define_c_proc(sl,"slSoundStop",{C_INT}),
-				xslSoundPauseAll = define_c_proc(sl,"slSoundPauseAll",{}),
-				xslSoundResumeAll = define_c_proc(sl,"slSoundResumeAll",{}),
-				xslSoundStopAll = define_c_proc(sl,"slSoundStopAll",{}),
-				xslSoundPlaying = define_c_func(sl,"slSoundPlaying",{C_INT},C_INT),
-				xslSoundLooping = define_c_func(sl,"slSoundLooping",{C_INT},C_INT)
+public constant xslLoadWAV = define_c_func(sl,"+slLoadWAV",{C_POINTER},C_INT),
+				xslSoundPlay = define_c_func(sl,"+slSoundPlay",{C_INT},C_INT),
+				xslSoundLoop = define_c_func(sl,"+slSoundLoop",{C_INT},C_INT),
+				xslSoundPause = define_c_proc(sl,"+slSoundPause",{C_INT}),
+				xslSoundStop = define_c_proc(sl,"+slSoundStop",{C_INT}),
+				xslSoundPauseAll = define_c_proc(sl,"+slSoundPauseAll",{}),
+				xslSoundResumeAll = define_c_proc(sl,"+slSoundResumeAll",{}),
+				xslSoundStopAll = define_c_proc(sl,"+slSoundStopAll",{}),
+				xslSoundPlaying = define_c_func(sl,"+slSoundPlaying",{C_INT},C_INT),
+				xslSoundLooping = define_c_func(sl,"+slSoundLooping",{C_INT},C_INT)
 				
 public function slLoadWAV(sequence file)
 
@@ -359,8 +359,8 @@ end function
 
 --Simple shape command Functions
 
-public constant xslTriangleFill = define_c_proc(sl,"slTriangleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE}),
-				xslTriangleOutline = define_c_proc(sl,"slTriangleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+public constant xslTriangleFill = define_c_proc(sl,"+slTriangleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE}),
+				xslTriangleOutline = define_c_proc(sl,"+slTriangleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
 				
 public procedure slTriangleFill(atom x,atom y,atom w,atom h)
 
@@ -374,8 +374,8 @@ public procedure slTriangleOutline(atom x,atom y,atom w,atom h)
 	
 end procedure
 
-public constant xslRectangleFill = define_c_proc(sl,"slRectangleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE}),
-				xslRectangleOutline = define_c_proc(sl,"slRectangleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+public constant xslRectangleFill = define_c_proc(sl,"+slRectangleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE}),
+				xslRectangleOutline = define_c_proc(sl,"+slRectangleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
 				
 public procedure slRectangleFill(atom x,atom y,atom w,atom h)
 
@@ -389,8 +389,8 @@ public procedure slRectangleOutline(atom x,atom y,atom w,atom h)
 	
 end procedure
 
-public constant xslCircleFill = define_c_proc(sl,"slCircleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT}),
-				xslCircleOutline = define_c_proc(sl,"slCircleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT})
+public constant xslCircleFill = define_c_proc(sl,"+slCircleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT}),
+				xslCircleOutline = define_c_proc(sl,"+slCircleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT})
 				
 public procedure slCircleFill(atom x,atom y,atom rad,integer num)
 
@@ -404,8 +404,8 @@ public procedure slCircleOutline(atom x,atom y,atom rad,integer num)
 	
 end procedure
 
-public constant xslSemiCircleFill = define_c_proc(sl,"slSemiCircleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT,C_DOUBLE}),
-				xslSemiCircleOutline = define_c_proc(sl,"slSemiCircleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT,C_DOUBLE})
+public constant xslSemiCircleFill = define_c_proc(sl,"+slSemiCircleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT,C_DOUBLE}),
+				xslSemiCircleOutline = define_c_proc(sl,"+slSemiCircleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT,C_DOUBLE})
 				
 public procedure slSemiCircleFill(atom x,atom y,atom rad,integer num,atom degree)
 
@@ -419,7 +419,7 @@ public procedure slSemiCircleOutline(atom x,atom y,atom rad,integer num,atom deg
 	
 end procedure
 
-public constant xslPoint = define_c_proc(sl,"slPoint",{C_DOUBLE,C_DOUBLE})
+public constant xslPoint = define_c_proc(sl,"+slPoint",{C_DOUBLE,C_DOUBLE})
 
 public procedure slPoint(atom x,atom y)
 
@@ -427,7 +427,7 @@ public procedure slPoint(atom x,atom y)
 	
 end procedure
 
-public constant xslLine = define_c_proc(sl,"slLine",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+public constant xslLine = define_c_proc(sl,"+slLine",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
 
 public procedure slLine(atom x1,atom y1,atom x2,atom y2)
 
@@ -435,9 +435,9 @@ public procedure slLine(atom x1,atom y1,atom x2,atom y2)
 	
 end procedure
 
-public constant xslSetSpriteTiling = define_c_proc(sl,"slSetSpriteTiling",{C_DOUBLE,C_DOUBLE}),
-				xslSetSpriteScroll = define_c_proc(sl,"slSetSpriteScroll",{C_DOUBLE,C_DOUBLE}),
-				xslSprite = define_c_proc(sl,"slSprite",{C_INT,C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+public constant xslSetSpriteTiling = define_c_proc(sl,"+slSetSpriteTiling",{C_DOUBLE,C_DOUBLE}),
+				xslSetSpriteScroll = define_c_proc(sl,"+slSetSpriteScroll",{C_DOUBLE,C_DOUBLE}),
+				xslSprite = define_c_proc(sl,"+slSprite",{C_INT,C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
 				
 public procedure slSetSpriteTiling(atom x,atom y)
 
@@ -459,13 +459,13 @@ end procedure
 
 --Text Functions
 
-public constant xslSetTextAlign = define_c_proc(sl,"slSetTextAlign",{C_INT}),
-				xslGetTextWidth = define_c_func(sl,"slGetTextWidth",{C_POINTER},C_DOUBLE),
-				xslGetTextHeight = define_c_func(sl,"slGetTextHeight",{C_POINTER},C_DOUBLE),
-				xslLoadFont = define_c_func(sl,"slLoadFont",{C_POINTER},C_INT),
-				xslSetFont = define_c_proc(sl,"slSetFont",{C_INT,C_INT}),
-				xslSetFontSize = define_c_proc(sl,"slSetFontSize",{C_INT}),
-				xslText = define_c_proc(sl,"slText",{C_DOUBLE,C_DOUBLE,C_POINTER})
+public constant xslSetTextAlign = define_c_proc(sl,"+slSetTextAlign",{C_INT}),
+				xslGetTextWidth = define_c_func(sl,"+slGetTextWidth",{C_POINTER},C_DOUBLE),
+				xslGetTextHeight = define_c_func(sl,"+slGetTextHeight",{C_POINTER},C_DOUBLE),
+				xslLoadFont = define_c_func(sl,"+slLoadFont",{C_POINTER},C_INT),
+				xslSetFont = define_c_proc(sl,"+slSetFont",{C_INT,C_INT}),
+				xslSetFontSize = define_c_proc(sl,"+slSetFontSize",{C_INT}),
+				xslText = define_c_proc(sl,"+slText",{C_DOUBLE,C_DOUBLE,C_POINTER})
 				
 public procedure slSetTextAlign(integer alg)
 
@@ -512,4 +512,4 @@ public procedure slText(atom x,atom y,sequence text)
  c_proc(xslText,{x,y,str})
 	
 end procedure
-­468.56
+­468.33
