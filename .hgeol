@@ -2,6 +2,7 @@
 **.e = native
 **.ex = native
 **.exw = native
+**.ew = native
 file_id.diz = native
 **.txt = native
 **.h = native
