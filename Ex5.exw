@@ -1,0 +1,78 @@
+--This is a Euphoria translation of the transformations example from the Sigil Examples
+without warning
+
+include EuSigil.ew
+
+constant WIDTH = 500
+constant HEIGHT = 500
+
+atom angle = 0.0
+
+slWindow(WIDTH,HEIGHT,"Transformations",0)
+slSetBackColor(0.0,0.0,0.0)
+
+procedure drawLimb(atom limbLength)
+	
+	slSetForeColor(1.0,1.0,1.0,1.0)
+	slLine(0,0,0,limbLength)
+
+end procedure
+
+procedure drawJoint(atom limbLength)
+
+	slSetForeColor(0.0,0.5,0.0,0.5)
+	slCircleFill(0,0,limbLength * 0.2,16)
+	
+	slSetForeColor(0.0,0.9,0.0,0.9)
+	slCircleOutline(0,0,limbLength * 0.2,16)
+	
+end procedure
+
+while not slShouldClose() do
+	
+	atom dt = slGetDeltaTime()
+	
+	if slGetKey(SL_KEY_ESCAPE) = 1 then
+		slClose()
+	end if
+	
+ 	angle += 20 * dt
+ 	
+	slPush()
+		slTranslate(250,250)
+		slRotate(angle)
+		drawLimb(120)
+		drawJoint(120)
+		
+	slPush()
+		slTranslate(0,120)
+		slRotate(angle * 2.0)
+		drawLimb(75)
+		drawJoint(75)
+		
+	slPush()
+		slTranslate(0,75)
+		slRotate(angle * 3.0)
+		drawLimb(35)
+		drawJoint(35)
+		slPop()
+		slPush()
+			slTranslate(0,75)
+			slRotate(angle * -2.5)
+			drawLimb(30)
+		slPush()
+			slTranslate(0,30)
+			slRotate(angle * 2.2)
+			drawLimb(25)
+			drawJoint(25)
+			slPop()
+		slPop()
+	slPop()
+	slPop()
+	
+	slRender()
+
+end while
+
+slClose()
+­39.18
