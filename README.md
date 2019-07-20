@@ -47,7 +47,7 @@ include EuSigil.ew
 slWindow(640,480,"Simple Window - Click 'X' or ESC to close",0)
 
 while not slShouldClose()  do
-  if slGetKey($SL_KEY_ESCAPE) = 1 then
+  if slGetKey(SL_KEY_ESCAPE) = 1 then
   	 slClose()
   end if
 	slRender()
