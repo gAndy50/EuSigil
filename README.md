@@ -23,7 +23,9 @@ EuSigil.
 This software is provided as-is. There is no warranty for this software. You use this software at your
 own risk. You may not hold the developer or Euphoria community responsible for any damages or mis-use
 of this software. You may use this wrapper to write Euphoria programs using the EuSigil wrapper. You
-can distribute software you make with this wrapper as you please. 
+can distribute software you make with this wrapper as you please. You may not claim you wrote the original
+EuSFML2 wrapper. While not required an aknowledgement of the original author would be nice.
+
 ```
 
 ### LINKS
