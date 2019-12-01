@@ -32,6 +32,7 @@ EuSigil wrapper. While not required an aknowledgement of the original author wou
 ```
 SIGIL: http://www.libsigil.com/ - Sigil Homepage
 EUPHORIA: https://openeuphoria.org/index.wc - Euphoria Homepage
+PAYPAL: paypal.me/IcyViking
 ```
 
 ```
