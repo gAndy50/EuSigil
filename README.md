@@ -41,7 +41,7 @@ PAYPAL: paypal.me/IcyViking
 
 ### EXAMPLE
 
-```
+```Euphoria
 without type_check
 
 include std/machine.e
