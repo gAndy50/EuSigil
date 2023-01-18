@@ -46,6 +46,8 @@ without type_check
 
 include std/machine.e
 include EuSigil.ew
+--OR if you want to use the FFI version
+--include sigilffi.e 
 
 slWindow(640,480,"Simple Window - Click 'X' or ESC to close",0)
 
