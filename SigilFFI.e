@@ -1,0 +1,514 @@
+--------------------------------
+--EuSigil                     --
+--Written by Andy P.          --
+--Icy Viking Games            --
+--Eu Ver 4.1.0                --
+--Sigil Ver 0.9.0             --
+--Paypal g_andy <at> live.com --
+--------------------------------
+without type_check
+
+--NOTE: This is an updated Sigil wrapper for Euphoria using Greg's FFI Euphoria Library
+--DATE: 1-18-23
+include std/machine.e
+--include std/dll.e
+include std/ffi.e
+include std/math.e
+
+--load sigil.dll
+atom sl
+
+--do platform check and load library for the correct platform
+ifdef WIN32 then
+	sl = open_dll("sigil.dll")
+	if sl = -1 then
+		puts(1,"Failed to open sigil.dll!\n")
+		abort(0)
+	end if
+	elsifdef LINUX or FREEBSD then
+	 sl = open_dll("sigil.so")
+	 if sl = -1 then
+	 	puts(1,"Failed to load sigil.so!\n")
+	 	abort(0)
+	 end if
+end ifdef
+
+--Flags
+public constant SL_ALIGN_CENTER = 0,
+		 		SL_ALIGN_RIGHT = 1,
+		 		SL_ALIGN_LEFT = 2
+		 
+public constant SL_KEY_ESCAPE = 256,
+				SL_KEY_ENTER = 257,
+				SL_KEY_TAB = 258,
+				SL_KEY_BACKSPACE = 259,
+				SL_KEY_INSERT = 260,
+				SL_KEY_DELETE = 261,
+				SL_KEY_RIGHT = 262,
+				SL_KEY_LEFT = 263,
+				SL_KEY_DOWN = 264,
+				SL_KEY_UP = 265,
+				SL_KEY_PAGE_UP = 266,
+				SL_KEY_PAGE_DOWN = 267,
+				SL_KEY_HOME = 268,
+				SL_KEY_END = 269,
+				SL_KEY_CAPS_LOCK = 280,
+				SL_KEY_SCROLL_LOCK = 281,
+				SL_KEY_NUM_LOCK = 282,
+				SL_KEY_PRINT_SCREEN = 283,
+				SL_KEY_PAUSE = 284,
+				SL_KEY_F1 = 290,
+				SL_KEY_F2 = 291,
+				SL_KEY_F3 = 292,
+				SL_KEY_F4 = 293,
+				SL_KEY_F5 = 294,
+				SL_KEY_F6 = 295,
+				SL_KEY_F7 = 296,
+				SL_KEY_F8 = 297,
+				SL_KEY_F9 = 298,
+				SL_KEY_F10 = 299,
+				SL_KEY_F11 = 300,
+				SL_KEY_F12 = 301,
+				SL_KEY_F13 = 302,
+				SL_KEY_F14 = 303,
+				SL_KEY_F15 = 304,
+				SL_KEY_F16 = 305,
+				SL_KEY_F17 = 306,
+				SL_KEY_F18 = 307,
+				SL_KEY_F19 = 308,
+				SL_KEY_F20 = 309,
+				SL_KEY_F21 = 310,
+				SL_KEY_F22 = 311,
+				SL_KEY_F23 = 312,
+				SL_KEY_F24 = 313,
+				SL_KEY_F25 = 314,
+				SL_KEY_KEYPAD_0 = 320,
+				SL_KEY_KEYPAD_1 = 321,
+				SL_KEY_KEYPAD_2 = 322,
+				SL_KEY_KEYPAD_3 = 323,
+				SL_KEY_KEYPAD_4 = 324,
+				SL_KEY_KEYPAD_5 = 325,
+				SL_KEY_KEYPAD_6 = 326,
+				SL_KEY_KEYPAD_7 = 327,
+				SL_KEY_KEYPAD_8 = 328,
+				SL_KEY_KEYPAD_9 = 329,
+				SL_KEY_KEYPAD_DECIMAL = 330,
+				SL_KEY_KEYPAD_DIVIDE = 331,
+				SL_KEY_KEYPAD_MULTIPLY = 332,
+				SL_KEY_KEYPAD_SUBTRACT = 333,
+				SL_KEY_KEYPAD_ADD = 334,
+				SL_KEY_KEYPAD_ENTER = 335,
+				SL_KEY_KEYPAD_EQUAL = 336,
+				SL_KEY_LEFT_SHIFT = 340,
+				SL_KEY_LEFT_CONTROL = 341,
+				SL_KEY_LEFT_ALT = 342,
+				SL_KEY_LEFT_SUPER = 343,
+				SL_KEY_RIGHT_SHIFT = 344,
+				SL_KEY_RIGHT_CONTROL = 345,
+				SL_KEY_RIGHT_ALT = 346,
+				SL_KEY_RIGHT_SUPER = 347
+				
+public constant SL_MOUSE_BUTTON_1 = 0,
+				SL_MOUSE_BUTTON_2 = 1,
+				SL_MOUSE_BUTTON_3 = 2,
+				SL_MOUSE_BUTTON_4 = 3,
+				SL_MOUSE_BUTTON_5 = 4,
+				SL_MOUSE_BUTTON_6 = 5,
+				SL_MOUSE_BUTTON_7 = 6,
+				SL_MOUSE_BUTTON_8 = 7,
+				SL_MOUSE_BUTTON_LEFT = SL_MOUSE_BUTTON_1,
+				SL_MOUSE_BUTTON_RIGHT = SL_MOUSE_BUTTON_2,
+				SL_MOUSE_BUTTON_MIDDLE = SL_MOUSE_BUTTON_3
+				
+public constant SL_TRUE = 1
+public constant SL_FALSE = 0
+				
+--Init commands
+
+public constant xslWindow = define_c_proc(sl,"+slWindow",{C_INT,C_INT,C_STRING,C_INT}),
+				xslShowCursor = define_c_proc(sl,"+slShowCursor",{C_INT}),
+				xslClose = define_c_proc(sl,"+slClose",{}),
+				xslShouldClose = define_c_func(sl,"+slShouldClose",{},C_INT)
+				
+public procedure slWindow(atom width,atom height,sequence title,integer fullScr)
+
+ c_proc(xslWindow,{width,height,title,fullScr})
+	
+end procedure
+
+public procedure slShowCursor(integer show)
+
+ c_proc(xslShowCursor,{show})
+	
+end procedure
+
+public procedure slClose()
+
+ c_proc(xslClose,{})
+	
+end procedure
+
+public function slShouldClose()
+
+ return c_func(xslShouldClose,{})
+	
+end function
+
+--Simple Input Functions
+
+public constant xslGetKey = define_c_func(sl,"+slGetKey",{C_INT},C_INT),
+				xslGetMouseButton = define_c_func(sl,"+slGetMouseButton",{C_INT},C_INT),
+				xslGetMouseX = define_c_func(sl,"+slGetMouseX",{},C_INT),
+				xslGetMouseY = define_c_func(sl,"+slGetMouseY",{},C_INT)
+				
+public function slGetKey(integer xkey)
+
+ return c_func(xslGetKey,{xkey})
+	
+end function
+
+public function slGetMouseButton(integer btn)
+
+ return c_func(xslGetMouseButton,{btn})
+	
+end function
+
+public function slGetMouseX()
+
+ return c_func(xslGetMouseX,{})
+	
+end function
+
+public function slGetMouseY()
+
+ return c_func(xslGetMouseY,{})
+	
+end function
+
+--Simple frame time Functions
+
+public constant xslGetDeltaTime = define_c_func(sl,"+slGetDeltaTime",{},C_DOUBLE),
+				xslGetTime = define_c_func(sl,"+slGetTime",{},C_DOUBLE)
+				
+public function slGetDeltaTime()
+
+ return c_func(xslGetDeltaTime,{})
+	
+end function
+
+public function slGetTime()
+
+ return c_func(xslGetTime,{})
+	
+end function
+
+--Render Functions
+
+public constant xslRender = define_c_proc(sl,"+slRender",{})
+
+public procedure slRender()
+
+ c_proc(xslRender,{})
+	
+end procedure
+
+--Color Control Functions
+
+public constant xslSetBackColor = define_c_proc(sl,"+slSetBackColor",{C_DOUBLE,C_DOUBLE,C_DOUBLE}),
+				xslSetForeColor = define_c_proc(sl,"+slSetForeColor",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+				
+public procedure slSetBackColor(atom red,atom green,atom blue)
+
+ c_proc(xslSetBackColor,{red,green,blue})
+	
+end procedure
+
+public procedure slSetForeColor(atom red,atom green,atom blue,atom alpha)
+
+ c_proc(xslSetForeColor,{red,green,blue,alpha})
+	
+end procedure
+
+--Blending Control Functions
+
+public constant xslSetAdditiveBlend = define_c_proc(sl,"+slSetAdditiveBlend",{C_INT})
+
+public procedure slSetAdditiveBlend(integer addblnd)
+
+ c_proc(xslSetAdditiveBlend,{addblnd})
+	
+end procedure
+
+--Transformations Functions
+
+public constant xslPush = define_c_proc(sl,"+slPush",{}),
+				xslPop = define_c_proc(sl,"+slPop",{}),
+				xslTranslate = define_c_proc(sl,"+slTranslate",{C_DOUBLE,C_DOUBLE}),
+				xslRotate = define_c_proc(sl,"+slRotate",{C_DOUBLE}),
+				xslScale = define_c_proc(sl,"+slScale",{C_DOUBLE,C_DOUBLE})
+				
+public procedure slPush()
+
+ c_proc(xslPush,{})
+	
+end procedure
+
+public procedure slPop()
+
+ c_proc(xslPop,{})
+	
+end procedure
+
+public procedure slTranslate(atom x,atom y)
+
+ c_proc(xslTranslate,{x,y})
+	
+end procedure
+
+public procedure slRotate(atom degrees)
+
+ c_proc(xslRotate,{degrees})
+	
+end procedure
+
+public procedure slScale(atom x,atom y)
+
+ c_proc(xslScale,{x,y})
+	
+end procedure
+
+--Texture loading Function
+
+public constant xslLoadTexture = define_c_func(sl,"+slLoadTexture",{C_STRING},C_INT)
+
+public function slLoadTexture(sequence file)
+
+ return c_func(xslLoadTexture,{file})
+	
+end function
+
+--Sound loading & playing Functions
+
+public constant xslLoadWAV = define_c_func(sl,"+slLoadWAV",{C_POINTER},C_INT),
+				xslSoundPlay = define_c_func(sl,"+slSoundPlay",{C_INT},C_INT),
+				xslSoundLoop = define_c_func(sl,"+slSoundLoop",{C_INT},C_INT),
+				xslSoundPause = define_c_proc(sl,"+slSoundPause",{C_INT}),
+				xslSoundStop = define_c_proc(sl,"+slSoundStop",{C_INT}),
+				xslSoundPauseAll = define_c_proc(sl,"+slSoundPauseAll",{}),
+				xslSoundResumeAll = define_c_proc(sl,"+slSoundResumeAll",{}),
+				xslSoundStopAll = define_c_proc(sl,"+slSoundStopAll",{}),
+				xslSoundPlaying = define_c_func(sl,"+slSoundPlaying",{C_INT},C_INT),
+				xslSoundLooping = define_c_func(sl,"+slSoundLooping",{C_INT},C_INT)
+				
+public function slLoadWAV(sequence file)
+
+ return c_func(xslLoadWAV,{file})
+	
+end function
+
+public function slSoundPlay(integer snd)
+
+ return c_func(xslSoundPlay,{snd})
+	
+end function
+
+public function slSoundLoop(integer snd)
+
+ return c_func(xslSoundLoop,{snd})
+	
+end function
+
+public procedure slSoundPause(integer snd)
+
+ c_proc(xslSoundPause,{snd})
+	
+end procedure
+
+public procedure slSoundStop(integer snd)
+
+ c_proc(xslSoundStop,{snd})
+	
+end procedure
+
+public procedure slSoundPauseAll()
+
+ c_proc(xslSoundPauseAll,{})
+	
+end procedure
+
+public procedure slSoundResumeAll()
+
+ c_proc(xslSoundResumeAll,{})
+	
+end procedure
+
+public procedure slSoundStopAll()
+
+ c_proc(xslSoundStopAll,{})
+	
+end procedure
+
+public function slSoundPlaying(integer snd)
+
+ return c_func(xslSoundPlaying,{snd})
+	
+end function
+
+public function slSoundLooping(integer snd)
+
+ return c_func(xslSoundLooping,{snd})
+	
+end function
+
+--Simple shape command Functions
+
+public constant xslTriangleFill = define_c_proc(sl,"+slTriangleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE}),
+				xslTriangleOutline = define_c_proc(sl,"+slTriangleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+				
+public procedure slTriangleFill(atom x,atom y,atom w,atom h)
+
+ c_proc(xslTriangleFill,{x,y,w,h})
+	
+end procedure
+
+public procedure slTriangleOutline(atom x,atom y,atom w,atom h)
+
+ c_proc(xslTriangleOutline,{x,y,w,h})
+	
+end procedure
+
+public constant xslRectangleFill = define_c_proc(sl,"+slRectangleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE}),
+				xslRectangleOutline = define_c_proc(sl,"+slRectangleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+				
+public procedure slRectangleFill(atom x,atom y,atom w,atom h)
+
+ c_proc(xslRectangleFill,{x,y,w,h})
+	
+end procedure
+
+public procedure slRectangleOutline(atom x,atom y,atom w,atom h)
+
+ c_proc(xslRectangleOutline,{x,y,w,h})
+	
+end procedure
+
+public constant xslCircleFill = define_c_proc(sl,"+slCircleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT}),
+				xslCircleOutline = define_c_proc(sl,"+slCircleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT})
+				
+public procedure slCircleFill(atom x,atom y,atom rad,integer num)
+
+ c_proc(xslCircleFill,{x,y,rad,num})
+	
+end procedure
+
+public procedure slCircleOutline(atom x,atom y,atom rad,integer num)
+
+ c_proc(xslCircleOutline,{x,y,rad,num})
+	
+end procedure
+
+public constant xslSemiCircleFill = define_c_proc(sl,"+slSemiCircleFill",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT,C_DOUBLE}),
+				xslSemiCircleOutline = define_c_proc(sl,"+slSemiCircleOutline",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_INT,C_DOUBLE})
+				
+public procedure slSemiCircleFill(atom x,atom y,atom rad,integer num,atom degree)
+
+ c_proc(xslSemiCircleFill,{x,y,rad,num,degree})
+	
+end procedure
+
+public procedure slSemiCircleOutline(atom x,atom y,atom rad,integer num,atom degree)
+
+ c_proc(xslSemiCircleOutline,{x,y,rad,num,degree})
+	
+end procedure
+
+public constant xslPoint = define_c_proc(sl,"+slPoint",{C_DOUBLE,C_DOUBLE})
+
+public procedure slPoint(atom x,atom y)
+
+ c_proc(xslPoint,{x,y})
+	
+end procedure
+
+public constant xslLine = define_c_proc(sl,"+slLine",{C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+
+public procedure slLine(atom x1,atom y1,atom x2,atom y2)
+
+ c_proc(xslLine,{x1,y1,x2,y2})
+	
+end procedure
+
+public constant xslSetSpriteTiling = define_c_proc(sl,"+slSetSpriteTiling",{C_DOUBLE,C_DOUBLE}),
+				xslSetSpriteScroll = define_c_proc(sl,"+slSetSpriteScroll",{C_DOUBLE,C_DOUBLE}),
+				xslSprite = define_c_proc(sl,"+slSprite",{C_INT,C_DOUBLE,C_DOUBLE,C_DOUBLE,C_DOUBLE})
+				
+public procedure slSetSpriteTiling(atom x,atom y)
+
+ c_proc(xslSetSpriteTiling,{x,y})
+	
+end procedure
+
+public procedure slSetSpriteScroll(atom x,atom y)
+
+ c_proc(xslSetSpriteScroll,{x,y})
+	
+end procedure
+
+public procedure slSprite(integer tex,atom x,atom y,atom w,atom h)
+
+ c_proc(xslSprite,{tex,x,y,w,h})
+	
+end procedure
+
+--Text Functions
+
+public constant xslSetTextAlign = define_c_proc(sl,"+slSetTextAlign",{C_INT}),
+				xslGetTextWidth = define_c_func(sl,"+slGetTextWidth",{C_POINTER},C_DOUBLE),
+				xslGetTextHeight = define_c_func(sl,"+slGetTextHeight",{C_POINTER},C_DOUBLE),
+				xslLoadFont = define_c_func(sl,"+slLoadFont",{C_POINTER},C_INT),
+				xslSetFont = define_c_proc(sl,"+slSetFont",{C_INT,C_INT}),
+				xslSetFontSize = define_c_proc(sl,"+slSetFontSize",{C_INT}),
+				xslText = define_c_proc(sl,"+slText",{C_DOUBLE,C_DOUBLE,C_POINTER})
+				
+public procedure slSetTextAlign(integer alg)
+
+ c_proc(xslSetTextAlign,{alg})
+	
+end procedure
+
+public function slGetTextWidth(sequence text)
+
+ return c_func(xslGetTextWidth,{text})
+	
+end function
+
+public function slGetTextHeight(sequence text)
+
+ return c_func(xslGetTextHeight,{text})
+	
+end function
+
+public function slLoadFont(sequence file)
+
+ return c_func(xslLoadFont,{file})
+	
+end function
+
+public procedure slSetFont(integer font,integer size)
+
+ c_proc(xslSetFont,{font,size})
+	
+end procedure
+
+public procedure slSetFontSize(integer size)
+
+ c_proc(xslSetFontSize,{size})
+
+end procedure
+
+public procedure slText(atom x,atom y,sequence text)
+
+ c_proc(xslText,{x,y,text})
+	
+end procedure
+­12.15
