@@ -5,7 +5,7 @@ Eu Ver: 4.1.0 Beta 2
 Sigil Ver: 0.9.0
 Contact/Paypal: g_andy <at> live.com
 	
-(c) EuSigil 2025
+(c) EuSigil 2026
 ```
 
 ### ABOUT
@@ -61,3 +61,4 @@ end while
 slClose()
 
 ```
+
